@@ -14,8 +14,7 @@ import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
-    private var listUsers: MutableList<Films> =
-            mutableListOf<Films>()
+
     private var adapter: UsersAdapter? = null
 
     private var listFilm: MutableList<Film> =
@@ -24,9 +23,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        listUsers = mutableListOf()
-
-
         recycler_view.layoutManager = GridLayoutManager(this@MainActivity,2)// 2 span for recyclerview
 
         //adapter = UsersAdapter(this, listUsers)
@@ -44,7 +40,6 @@ class MainActivity : AppCompatActivity() {
                 val filmResponse = response.body()
                 filmResponse.toString()
                 listFilm.clear()
-                //filmResponse?.let { listUsers.addAll(listOf(it)) }
                 filmResponse?.let { listFilm.addAll(it.films) }
 
                 listFilm.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.localized_name }))
