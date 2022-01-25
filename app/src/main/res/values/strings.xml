@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Kinopoisk</string>
+    <string name="error_image_url_load">"Изображение не найдено"</string>
+    <string name="mainmenu_text">"Главная</string>
+</resources>
