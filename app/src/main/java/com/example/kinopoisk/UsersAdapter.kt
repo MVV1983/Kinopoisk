@@ -11,7 +11,9 @@ import com.example.kinopoisk.model.datamodel.Film
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class UsersAdapter(private val context: Context, private var list: MutableList<Film>) :
+class UsersAdapter(private val context: Context, private var list: MutableList<Film>,
+                   val clickLisstener: ItemClickInterface
+) :
     RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -27,18 +29,7 @@ class UsersAdapter(private val context: Context, private var list: MutableList<F
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val film = list.get(position)
-        //holder.info1?.text = film.description
         holder.name?.text = film.localized_name
-        // holder.genres?.text = film.genres.toString()
-
-        //val imageCheck = Picasso.with(context).load(film.image_url)
-
-        // if(imageCheck != null){
-        //   imageCheck.into(holder.image) //Picasso.with(context).load(film.image_url).into(holder.image)
-        // }
-        //else{
-        //     holder.image?.setImageResource(R.drawable.error_load_image_url)
-        //}
 
         Picasso.with(context).load(film.image_url).into(holder.image, object : Callback {
             override fun onSuccess() {
@@ -49,6 +40,13 @@ class UsersAdapter(private val context: Context, private var list: MutableList<F
                 holder.error?.visibility = View.VISIBLE
             }
         })
+
+        holder.itemView.setOnClickListener {
+            val unit = list.get(position)
+            clickLisstener.onClicked(unit)
+
+            notifyDataSetChanged()
+        }
 
     }
 
@@ -69,6 +67,11 @@ class UsersAdapter(private val context: Context, private var list: MutableList<F
             image = view.findViewById(R.id.card_Image)
             error = view.findViewById(R.id.error_text_message)
         }
+    }
+
+
+    interface ItemClickInterface {
+        fun onClicked(film: Film)
     }
 
 }
