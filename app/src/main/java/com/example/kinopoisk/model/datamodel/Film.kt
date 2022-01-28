@@ -1,6 +1,7 @@
 package com.example.kinopoisk.model.datamodel
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Film (
     @SerializedName("id") val id : Int,
@@ -11,4 +12,4 @@ data class Film (
     @SerializedName("image_url") val image_url : String,
     @SerializedName("description") val description : String,
     @SerializedName("genres") val genres : List<String>
-)
+):Serializable

@@ -18,16 +18,13 @@ class FilmInfoFragment : Fragment() {
     lateinit var cover: ImageView
     lateinit var raiting: TextView
 
-    private var film: MutableList<String> =
-        mutableListOf<String>()
-
     companion object {
-        private const val NAME = "NAME"
-        private const val LOCAL_NAME = "LOCAL_NAME"
-        private const val FILM_COVER = "FILM_COVER"
-        private const val FILM_DESCRIPTION = "FILM_DESCRIPTION"
-        private const val FILM_YEAR = "YEAR"
-        private const val RAITING = "RAITING"
+        private const val NAME = "name"
+        private const val LOCAL_NAME = "local_name"
+        private const val FILM_COVER = "film_cover"
+        private const val FILM_DESCRIPTION = "film_description"
+        private const val FILM_YEAR = "year"
+        private const val RATING = "rating"
     }
 
     override fun onCreateView(
@@ -47,13 +44,14 @@ class FilmInfoFragment : Fragment() {
         year_film = view.findViewById(R.id.film_year)
         raiting = view.findViewById(R.id.film_rating)
         description.text = arguments?.getString(FILM_DESCRIPTION)
+        cover.contentDescription = arguments?.getString(LOCAL_NAME)
 
         val imageCoverUri = arguments?.getString(FILM_COVER)
         Picasso.with(context).load(imageCoverUri).into(cover)
         var yFilm = arguments?.getString(FILM_YEAR)
 
         year_film.text = getString(R.string.film_year, yFilm)
-        raiting.text = getString(R.string.film_raiting, arguments?.getString(RAITING))
+        raiting.text = getString(R.string.film_rating, arguments?.getString(RATING))
 
         return view
     }
