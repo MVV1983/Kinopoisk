@@ -3,17 +3,17 @@ package com.example.kinopoisk.model.repository
 import android.util.Log
 import com.example.kinopoisk.interfaces.Contract
 import com.example.kinopoisk.model.api.API
-import com.example.kinopoisk.model.datamodel.Film
-import com.example.kinopoisk.model.datamodel.Films
-import com.example.kinopoisk.model.datamodel.Genres
+import com.example.kinopoisk.model.datamodel.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FilmRepository : Contract.Model {
     private var listFilm: MutableList<Film> = mutableListOf()
-    var listGenres: MutableList<String> = mutableListOf()
-    var allGenres: List<String> = mutableListOf()
+    var listGenres: MutableList<Genres> = mutableListOf()
+    var allGenres: List<Genres> = mutableListOf()
+
+    var selectedFilm: List<Film> = mutableListOf()
 
     override fun getData(presenter: Contract.Presenter) {
         val call = API.create().getFilms()
@@ -24,25 +24,8 @@ class FilmRepository : Contract.Model {
                 listFilm.clear()
                 filmResponse?.let { listFilm.addAll(it.films) }
 
+                // println(listFilm)
                 listFilm.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.localized_name }))
-
-                for (e in 0 until listFilm.size){
-                    val unit = listFilm[e]
-                    for(i in  unit.genres){
-                       listGenres.addAll(unit.genres)// listGenres.add(listFilm[e].genres.toString())
-                    }
-                }
-                // pice code for  uses Genres data class
-                var listing: MutableList<Genres> = mutableListOf()
-                for (e in 0 until listFilm.size){
-                    val unit = listFilm[e]
-                    for(i in  unit.genres){
-                        listing.addAll(listOf(Genres(unit.genres)))// listGenres.add(listFilm[e].genres.toString())
-                    }
-                }
-
-                allGenres = listGenres.distinctBy { it.length }
-                println(allGenres.toString())// println(listGenres.toString())
 
                 presenter.updateUI()
             }
@@ -58,8 +41,31 @@ class FilmRepository : Contract.Model {
         return listFilm
     }
 
-    override fun getListAllGenres(): List<String> {
-        return allGenres//listGenres
+    override fun getListAllGenres(): List<Genres> {
+        // pice code for  uses Genres data class
+
+        for (e in 0 until listFilm.size) {
+            val unit = listFilm[e]
+            for (i in unit.genres) {
+                listGenres.addAll(listOf(Genres(i)))
+            }
+        }
+        allGenres = listGenres.distinctBy { it.name }
+
+        return allGenres
     }
 
+    override fun getSelectedFilmByGenre(genres: String, presenter: Contract.Presenter): List<Film> {
+        val selectGenres = listFilm.filter { it.genres.contains(genres) }
+        presenter.updateUI()
+        return selectGenres
+    }
+
+    override fun preparationData(listHeader: List<Header>,list1: List<Genres>, list2: List<Film>): List<ListItem> {
+        val header= listHeader.map { ListItem.HeaderModel(it.header) }
+        val tmp2 = list1.map { ListItem.GenresModel(it) }
+        val footer= listHeader.map { ListItem.HeaderModel(it.footer)}
+        val tmp4 = list2.map { ListItem.FilmModel(it) }
+        return header+tmp2+footer+tmp4
+    }
 }

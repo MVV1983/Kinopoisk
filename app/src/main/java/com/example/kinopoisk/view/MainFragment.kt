@@ -1,49 +1,63 @@
 package com.example.kinopoisk.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.example.kinopoisk.R
-import com.example.kinopoisk.UsersAdapter
 import com.example.kinopoisk.interfaces.Contract
-import com.example.kinopoisk.model.api.API
+import com.example.kinopoisk.interfaces.ItemFilmAdapter
 import com.example.kinopoisk.model.datamodel.Film
-import com.example.kinopoisk.model.datamodel.Films
 import com.example.kinopoisk.model.datamodel.Genres
+import com.example.kinopoisk.model.datamodel.Header
+import com.example.kinopoisk.model.datamodel.ListItem
 import com.example.kinopoisk.presenter.FilmPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class MainFragment : Fragment(), UsersAdapter.ItemClickInterface, Contract.View {
-    private var presenter: Contract.Presenter? = null
-    private var adapter: UsersAdapter? = null
+class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
+    Contract.View {
+    private lateinit var presenter: Contract.Presenter
+    private lateinit var adapter2: ItemFilmAdapter
 
-    private lateinit var listFilm: MutableList<Film>
-    private lateinit var allFilmGenres: List<String>
+    private lateinit var listFilm: List<Film>
+    private lateinit var allFilmGenres: List<Genres>
+    private var selectedGenesFilms: List<Film> = mutableListOf()
+    var selectGenres: String = ""
+    private lateinit var mergerListForAdapter: List<ListItem>
+
+
+    companion object {
+        const val HEADER = 1003
+        const val GENRES = 1001
+    }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recycler_view.layoutManager = GridLayoutManager(context, 2)// 2 span for recyclerview
+
+        prepareRecycler()
+
+        //recycler_view.layoutManager = GridLayoutManager(context, 2)// 2 span for recyclerview
+        //adapter2 = context?.let { ItemFilmAdapter(it, this) }!!
+        //recycler_view.adapter = adapter2
+        //recycler_view.setHasFixedSize(true)
 
         presenter = FilmPresenter(this)
-        presenter?.getDataFromApi()
-        presenter?.giveGenresDatafoUI()
+        presenter.getDataFromApi()
+
     }
 
     override fun onClicked(film: Film) {
@@ -59,12 +73,47 @@ class MainFragment : Fragment(), UsersAdapter.ItemClickInterface, Contract.View 
         findNavController().navigate(R.id.action_mainFragment_to_filmInfoFragment, args)
     }
 
-    override fun updateViewData() {
-        allFilmGenres = presenter?.giveGenresDatafoUI()!!
+    override fun onClickGenres(genres: String) {
+        selectedGenesFilms = presenter.getSelectedGenresFilm(genres)
+        println(genres)
+    }
 
-        listFilm = presenter?.giveDataForUI()!!
-        adapter = context?.let { UsersAdapter(it, listFilm, this@MainFragment) }
-        recycler_view.adapter = adapter
-        adapter?.notifyDataSetChanged()
+    override fun updateViewData() {
+        allFilmGenres = presenter.giveGenresDataForUI()
+        listFilm = presenter.giveDataForUI()
+
+        println(listOf(selectedGenesFilms))
+
+        val header: List<Header> = listOf(Header("Жанры","Фильмы"))
+
+        if (selectedGenesFilms.isEmpty()) {
+            mergerListForAdapter = presenter.mergeListForAdapter(header, allFilmGenres,listFilm)
+            adapter2.update(mergerListForAdapter)
+            adapter2.notifyDataSetChanged()
+        } else {
+            mergerListForAdapter = presenter.mergeListForAdapter(header, allFilmGenres,selectedGenesFilms)
+            adapter2.update(mergerListForAdapter)
+            adapter2.notifyDataSetChanged()
+        }
+
+        println(allFilmGenres)
+    }
+
+    private fun prepareRecycler() {
+        val glm = GridLayoutManager(context, 2)
+        glm.setSpanSizeLookup(object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (adapter2.getItemViewType(position)) {
+                    HEADER -> 2
+                    GENRES -> 2
+                    else -> 1
+                }
+            }
+        })
+        recycler_view.layoutManager = glm
+
+        adapter2 = context?.let { ItemFilmAdapter(it, this) }!!
+        recycler_view.adapter = adapter2
+        recycler_view.setHasFixedSize(true)
     }
 }
