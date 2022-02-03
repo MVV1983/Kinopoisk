@@ -11,7 +11,7 @@ import com.example.kinopoisk.model.datamodel.Film
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class UsersAdapter(private val context: Context, private var list: MutableList<Film>,
+class UsersAdapter(private val context: Context, private var list: List<Film>,
                    val clickLisstener: ItemClickInterface
 ) :
     RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {

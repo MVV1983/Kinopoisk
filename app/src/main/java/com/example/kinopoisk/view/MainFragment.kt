@@ -1,6 +1,8 @@
 package com.example.kinopoisk.view
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,23 +14,14 @@ import com.example.kinopoisk.R
 import com.example.kinopoisk.interfaces.Contract
 import com.example.kinopoisk.interfaces.ItemFilmAdapter
 import com.example.kinopoisk.model.datamodel.Film
-import com.example.kinopoisk.model.datamodel.Genres
-import com.example.kinopoisk.model.datamodel.Header
 import com.example.kinopoisk.model.datamodel.ListItem
 import com.example.kinopoisk.presenter.FilmPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
-    Contract.View {
+        Contract.View {
     private lateinit var presenter: Contract.Presenter
     private lateinit var adapter2: ItemFilmAdapter
-
-    private lateinit var listFilm: List<Film>
-    private lateinit var allFilmGenres: List<Genres>
-    private var selectedGenesFilms: List<Film> = mutableListOf()
-    var selectGenres: String = ""
-    private lateinit var mergerListForAdapter: List<ListItem>
-
 
     companion object {
         const val HEADER = 1003
@@ -36,8 +29,8 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
 
@@ -47,17 +40,9 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         prepareRecycler()
-
-        //recycler_view.layoutManager = GridLayoutManager(context, 2)// 2 span for recyclerview
-        //adapter2 = context?.let { ItemFilmAdapter(it, this) }!!
-        //recycler_view.adapter = adapter2
-        //recycler_view.setHasFixedSize(true)
-
         presenter = FilmPresenter(this)
         presenter.getDataFromApi()
-
     }
 
     override fun onClicked(film: Film) {
@@ -74,29 +59,18 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     }
 
     override fun onClickGenres(genres: String) {
-        selectedGenesFilms = presenter.getSelectedGenresFilm(genres)
+        presenter.sendSelected(genres)
         println(genres)
     }
 
     override fun updateViewData() {
-        allFilmGenres = presenter.giveGenresDataForUI()
-        listFilm = presenter.giveDataForUI()
+        presenter.getDataForAdapter()
+    }
 
-        println(listOf(selectedGenesFilms))
-
-        val header: List<Header> = listOf(Header("Жанры","Фильмы"))
-
-        if (selectedGenesFilms.isEmpty()) {
-            mergerListForAdapter = presenter.mergeListForAdapter(header, allFilmGenres,listFilm)
-            adapter2.update(mergerListForAdapter)
-            adapter2.notifyDataSetChanged()
-        } else {
-            mergerListForAdapter = presenter.mergeListForAdapter(header, allFilmGenres,selectedGenesFilms)
-            adapter2.update(mergerListForAdapter)
-            adapter2.notifyDataSetChanged()
-        }
-
-        println(allFilmGenres)
+    override fun updateAdapter(lAdapter: List<ListItem>) {
+        Log.d(TAG, "${lAdapter}")
+        adapter2.update(lAdapter)
+        adapter2.notifyDataSetChanged()
     }
 
     private fun prepareRecycler() {
