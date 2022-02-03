@@ -26,9 +26,8 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     private lateinit var listFilm: List<Film>
     private lateinit var allFilmGenres: List<Genres>
     private var selectedGenesFilms: List<Film> = mutableListOf()
-    var selectGenres: String = ""
     private lateinit var mergerListForAdapter: List<ListItem>
-
+    private var header: List<Header> = listOf()
 
     companion object {
         const val HEADER = 1003
@@ -49,11 +48,6 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
 
 
         prepareRecycler()
-
-        //recycler_view.layoutManager = GridLayoutManager(context, 2)// 2 span for recyclerview
-        //adapter2 = context?.let { ItemFilmAdapter(it, this) }!!
-        //recycler_view.adapter = adapter2
-        //recycler_view.setHasFixedSize(true)
 
         presenter = FilmPresenter(this)
         presenter.getDataFromApi()
@@ -84,7 +78,7 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
 
         println(listOf(selectedGenesFilms))
 
-        val header: List<Header> = listOf(Header("Жанры","Фильмы"))
+        header = listOf(Header("Жанры","Фильмы"))
 
         if (selectedGenesFilms.isEmpty()) {
             mergerListForAdapter = presenter.mergeListForAdapter(header, allFilmGenres,listFilm)
