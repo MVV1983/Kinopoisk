@@ -2,6 +2,7 @@ package com.example.kinopoisk.view
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.widget.Toast
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -61,6 +62,7 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     override fun onClickGenres(genres: String) {
         presenter.sendSelected(genres)
         println(genres)
+        Toast.makeText(context, genres, Toast.LENGTH_LONG).show()
     }
 
     override fun updateViewData() {
