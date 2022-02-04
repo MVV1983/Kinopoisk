@@ -1,11 +1,10 @@
 package com.example.kinopoisk.view
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,7 +18,7 @@ import com.example.kinopoisk.presenter.FilmPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
-        Contract.View {
+    Contract.View {
     private lateinit var presenter: Contract.Presenter
     private lateinit var adapter2: ItemFilmAdapter
 
@@ -29,8 +28,8 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
 
@@ -61,16 +60,21 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     override fun onClickGenres(genres: String) {
         presenter.sendSelected(genres)
         println(genres)
+        Toast.makeText(context, genres, Toast.LENGTH_LONG).show()
     }
 
     override fun updateViewData() {
         presenter.getDataForAdapter()
+        presenter.getError()
     }
 
     override fun updateAdapter(lAdapter: List<ListItem>) {
-        Log.d(TAG, "${lAdapter}")
         adapter2.update(lAdapter)
         adapter2.notifyDataSetChanged()
+    }
+
+    override fun showMessage(string: String) {
+        Toast.makeText(context, string, Toast.LENGTH_LONG).show()
     }
 
     private fun prepareRecycler() {

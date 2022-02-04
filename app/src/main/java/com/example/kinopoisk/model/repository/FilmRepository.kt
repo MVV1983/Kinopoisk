@@ -18,6 +18,8 @@ class FilmRepository : Contract.Model {
     private var mergerListForAdapter: List<ListItem> = mutableListOf()
     private var header: List<Header> = listOf()
 
+    private  var message: String = ""
+
     override fun getData(presenter: Contract.Presenter) {
         val call = API.create().getFilms()
         call.enqueue(object : Callback<Films> {
@@ -32,6 +34,8 @@ class FilmRepository : Contract.Model {
 
             override fun onFailure(call: Call<Films>, t: Throwable) {
                 Log.e("error", t.localizedMessage)
+                message = t.localizedMessage
+                presenter.updateUI()
             }
 
         })
@@ -56,6 +60,9 @@ class FilmRepository : Contract.Model {
         presenter.updateUI()
     }
 
+    override fun catchError(): String {
+        return message
+    }
 
     private fun getListAllGenres2(): List<Genres> {
         // pice code for  uses Genres data class

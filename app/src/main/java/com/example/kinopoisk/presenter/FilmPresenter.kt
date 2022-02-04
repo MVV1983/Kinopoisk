@@ -9,6 +9,8 @@ class FilmPresenter(filmView: Contract.View) : Contract.Presenter {
     private var model: Contract.Model = FilmRepository()
 
     private var data: List<ListItem> = mutableListOf()
+    private var message: String = ""
+
     ////MVP
     override fun getDataFromApi() {
         model.getData(this)
@@ -19,13 +21,19 @@ class FilmPresenter(filmView: Contract.View) : Contract.Presenter {
     }
 
     override fun getDataForAdapter() {
-        data =  model.dataAdapter(this)
+        data = model.dataAdapter(this)
         view.updateAdapter(data)
     }
 
     override fun sendSelected(genres: String) {
-        model.selectedDataGenres(genres,this)
+        model.selectedDataGenres(genres, this)
     }
 
+    override fun getError() {
+        message = model.catchError()
+        if (message.isNotEmpty()) {
+            view.showMessage(message)
+        }
+    }
 
 }

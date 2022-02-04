@@ -1,6 +1,6 @@
 package com.example.kinopoisk.model.api
 
-import com.example.kinopoisk.interfaces.Constant.Companion.BASE_URL2
+import com.example.kinopoisk.interfaces.Constant.Companion.BASE_URL
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +23,7 @@ object API {
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL2)
+            .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
