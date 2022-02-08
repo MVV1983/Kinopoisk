@@ -12,7 +12,8 @@
 При клике на фильм появится другой экрна с подробной информацией о нем.  
 
 
-![Kinopoisk](https://user-images.githubusercontent.com/51223584/152293808-b7eadc99-3e2d-4941-9625-7dcfd8809108.jpg)
+![Kinopoisk](https://user-images.githubusercontent.com/51223584/152293808-b7eadc99-3e2d-4941-9625-7dcfd8809108.jpg)  
+![kinopoisk1](https://user-images.githubusercontent.com/51223584/152963611-0b961873-a5aa-4ed1-a267-af1d48d16836.jpg)
 ![Kimopoisk2](https://user-images.githubusercontent.com/51223584/152292967-92264508-e01c-4933-ad4f-e39f44de6333.jpg)
 ![Kimopoisk3](https://user-images.githubusercontent.com/51223584/152962654-39ebb6fa-fd52-44cb-8c07-8699860a8092.jpg)
 ![Kimopoisk4](https://user-images.githubusercontent.com/51223584/152292975-7db6a915-aa20-4f5f-bf07-00f91ef659d0.jpg)  
