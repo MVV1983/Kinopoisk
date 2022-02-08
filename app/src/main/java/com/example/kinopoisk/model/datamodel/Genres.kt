@@ -1,5 +1,6 @@
 package com.example.kinopoisk.model.datamodel
 
 data class Genres (
-    val name: String
+    var name: String,
+    var isSelected: Boolean
 )

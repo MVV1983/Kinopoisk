@@ -7,11 +7,9 @@ import com.example.kinopoisk.model.repository.FilmRepository
 class FilmPresenter(filmView: Contract.View) : Contract.Presenter {
     private var view: Contract.View = filmView
     private var model: Contract.Model = FilmRepository()
-
     private var data: List<ListItem> = mutableListOf()
     private var message: String = ""
 
-    ////MVP
     override fun getDataFromApi() {
         model.getData(this)
     }
@@ -35,5 +33,4 @@ class FilmPresenter(filmView: Contract.View) : Contract.Presenter {
             view.showMessage(message)
         }
     }
-
 }

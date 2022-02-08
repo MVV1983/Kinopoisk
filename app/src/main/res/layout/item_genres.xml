@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<GridLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
@@ -8,15 +8,17 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:columnCount="1">
 
     <Button
             android:id="@+id/name_genres_button"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_columnSpan="1"
             android:textColor="@color/white"
             android:background="#323232"
+            android:onClick="click"
             />
-</androidx.cardview.widget.CardView>
+</GridLayout>

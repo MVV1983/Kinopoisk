@@ -13,7 +13,7 @@
                 app:destination="@id/mainFragment"/>
     </fragment>
     <fragment android:id="@+id/mainFragment"
-              android:name="com.example.kinopoisk.view.MainFragment"
+              android:name="com.example.kinopoisk.view.FilmFragment"
               android:label="@string/mainmenu_text"
               tools:layout="@layout/fragment_main">
         <action android:id="@+id/action_mainFragment_to_filmInfoFragment"

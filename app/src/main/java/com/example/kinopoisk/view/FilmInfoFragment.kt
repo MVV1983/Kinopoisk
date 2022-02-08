@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.kinopoisk.R
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_film_info.view.*
 
 
 class FilmInfoFragment : Fragment() {
@@ -17,6 +18,7 @@ class FilmInfoFragment : Fragment() {
     lateinit var year_film: TextView
     lateinit var cover: ImageView
     lateinit var raiting: TextView
+    lateinit var error: TextView
 
     companion object {
         private const val NAME = "name"
@@ -36,24 +38,34 @@ class FilmInfoFragment : Fragment() {
 
         (requireActivity() as MainActivity).supportActionBar?.title = arguments?.getString(LOCAL_NAME)
 
+        error = view.error_message
         name = view?.findViewById(R.id.film_name)!!
         name.text = arguments?.getString(NAME)
+
 
         description = view.findViewById(R.id.film_description)!!
         cover = view.findViewById(R.id.film_cover)
         year_film = view.findViewById(R.id.film_year)
         raiting = view.findViewById(R.id.film_rating)
         description.text = arguments?.getString(FILM_DESCRIPTION)
+
         cover.contentDescription = arguments?.getString(LOCAL_NAME)
 
         val imageCoverUri = arguments?.getString(FILM_COVER)
-        Picasso.with(context).load(imageCoverUri).into(cover)
-        var yFilm = arguments?.getString(FILM_YEAR)
+
+        if (imageCoverUri == null) {
+            cover.setBackgroundResource(R.drawable.error_load_image)
+            error.visibility = View.VISIBLE
+        } else {
+            Picasso.with(context).load(imageCoverUri).error(R.drawable.error_load_image).into(cover)
+        }
+
+
+        val yFilm = arguments?.getString(FILM_YEAR)
 
         year_film.text = getString(R.string.film_year, yFilm)
         raiting.text = getString(R.string.film_rating, arguments?.getString(RATING))
 
         return view
     }
-
 }

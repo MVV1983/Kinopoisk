@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="#121212"
-        tools:context=".view.MainFragment" style="@style/AppTheme">
+        tools:context=".view.FilmFragment" style="@style/AppTheme">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

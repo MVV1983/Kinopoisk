@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.example.kinopoisk.R
 import com.example.kinopoisk.interfaces.Contract
-import com.example.kinopoisk.interfaces.ItemFilmAdapter
+import com.example.kinopoisk.adapters.ItemFilmAdapter
 import com.example.kinopoisk.model.datamodel.Film
 import com.example.kinopoisk.model.datamodel.ListItem
 import com.example.kinopoisk.presenter.FilmPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
+class FilmFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     Contract.View {
     private lateinit var presenter: Contract.Presenter
     private lateinit var adapter2: ItemFilmAdapter
@@ -42,6 +42,7 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
         prepareRecycler()
         presenter = FilmPresenter(this)
         presenter.getDataFromApi()
+
     }
 
     override fun onClicked(film: Film) {
@@ -59,7 +60,6 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
 
     override fun onClickGenres(genres: String) {
         presenter.sendSelected(genres)
-        println(genres)
         Toast.makeText(context, genres, Toast.LENGTH_LONG).show()
     }
 
@@ -89,7 +89,6 @@ class MainFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
             }
         })
         recycler_view.layoutManager = glm
-
         adapter2 = context?.let { ItemFilmAdapter(it, this) }!!
         recycler_view.adapter = adapter2
         recycler_view.setHasFixedSize(true)
