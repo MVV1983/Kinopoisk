@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class FilmFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     Contract.View {
     private lateinit var presenter: Contract.Presenter
-    private lateinit var adapter2: ItemFilmAdapter
+    private lateinit var adapter: ItemFilmAdapter
 
     companion object {
         const val HEADER = 1003
@@ -69,8 +69,8 @@ class FilmFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
     }
 
     override fun updateAdapter(lAdapter: List<ListItem>) {
-        adapter2.update(lAdapter)
-        adapter2.notifyDataSetChanged()
+        adapter.update(lAdapter)
+        adapter.notifyDataSetChanged()
     }
 
     override fun showMessage(string: String) {
@@ -81,7 +81,7 @@ class FilmFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
         val glm = GridLayoutManager(context, 2)
         glm.setSpanSizeLookup(object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return when (adapter2.getItemViewType(position)) {
+                return when (adapter.getItemViewType(position)) {
                     HEADER -> 2
                     GENRES -> 2
                     else -> 1
@@ -89,8 +89,8 @@ class FilmFragment : Fragment(), ItemFilmAdapter.ItemClickInterface,
             }
         })
         recycler_view.layoutManager = glm
-        adapter2 = context?.let { ItemFilmAdapter(it, this) }!!
-        recycler_view.adapter = adapter2
+        adapter = context?.let { ItemFilmAdapter(it, this) }!!
+        recycler_view.adapter = adapter
         recycler_view.setHasFixedSize(true)
     }
 }

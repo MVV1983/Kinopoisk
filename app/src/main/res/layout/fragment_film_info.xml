@@ -13,7 +13,7 @@
     <ImageView
             android:id="@+id/film_cover"
             android:layout_width="@dimen/film_info_image_cover_layout_width"
-            android:layout_height="@dimen/film_info_image_cover_layout_height"
+            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop"
