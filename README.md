@@ -12,10 +12,8 @@
 При клике на фильм появится другой экрна с подробной информацией о нем.  
 
 
-![Kinopoisk](https://user-images.githubusercontent.com/51223584/152293808-b7eadc99-3e2d-4941-9625-7dcfd8809108.jpg)  
-![kinopoisk1](https://user-images.githubusercontent.com/51223584/152963611-0b961873-a5aa-4ed1-a267-af1d48d16836.jpg)
-![Kimopoisk2](https://user-images.githubusercontent.com/51223584/152292967-92264508-e01c-4933-ad4f-e39f44de6333.jpg)
-![Kimopoisk3](https://user-images.githubusercontent.com/51223584/152962654-39ebb6fa-fd52-44cb-8c07-8699860a8092.jpg)
-![Kimopoisk4](https://user-images.githubusercontent.com/51223584/152292975-7db6a915-aa20-4f5f-bf07-00f91ef659d0.jpg)  
-![horizontal1](https://user-images.githubusercontent.com/51223584/152963110-3b6ceb4f-e814-45b2-a6ae-b64229904912.jpg)  
-![horizontal2](https://user-images.githubusercontent.com/51223584/152963164-3d987b36-8e83-4f9e-9c51-7e24ff821ffb.jpg)
+![Kinopoisk](https://user-images.githubusercontent.com/51223584/152963779-7ddc8ac5-4a4b-4965-ac1b-e69cd5385973.jpg)
+![kinopoisk1](https://user-images.githubusercontent.com/51223584/152963789-5e5612de-c9a8-4ce0-92bc-4ec74b9fd158.jpg)
+![Kimopoisk3](https://user-images.githubusercontent.com/51223584/152963893-6e9ea135-6894-417b-8873-48a79c079c7c.jpg)
+![horizontal1](https://user-images.githubusercontent.com/51223584/152964096-046bac6f-73a2-4a0e-9732-bf9be92455c8.jpg)
+![kinopoisk5](https://user-images.githubusercontent.com/51223584/152964111-a4584f6b-5c15-4deb-88cc-7a6c0a265dff.jpg)
